@@ -14,12 +14,16 @@ class BatmanMainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.loop = asyncio.new_event_loop()
+        self.selected_account = None
+        self.loaded_groups = []
         self.initUI()
         self.load_accounts_list()
 
     def initUI(self):
-        self.setWindowTitle("Batman - Telegram Multi-Account Manager")
+        self.setWindowTitle("Batman - Telegram Manager [LOCALHOST]")
         self.setGeometry(100, 100, 1200, 800)
+        
+        # Use efficient stylesheet
         self.setStyleSheet(self.get_main_stylesheet())
 
         # Central widget
@@ -27,39 +31,42 @@ class BatmanMainWindow(QMainWindow):
         self.setCentralWidget(central_widget)
 
         main_layout = QVBoxLayout()
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(5)
 
         # Header
         header = self.create_header()
         main_layout.addWidget(header)
 
-        # Tab widget
+        # Tab widget - optimized
         tabs = QTabWidget()
+        tabs.setTabPosition(QTabWidget.TabPosition.North)
         tabs.addTab(self.create_accounts_tab(), "Accounts")
         tabs.addTab(self.create_groups_tab(), "Groups")
         tabs.addTab(self.create_broadcast_tab(), "Broadcast")
         tabs.addTab(self.create_logs_tab(), "Logs")
 
         main_layout.addWidget(tabs)
-
         central_widget.setLayout(main_layout)
 
     def create_header(self):
         header = QWidget()
         layout = QHBoxLayout()
+        layout.setContentsMargins(10, 5, 10, 5)
 
-        title = QLabel("🦇 Batman - Telegram Bot Manager")
+        title = QLabel("🦇 Batman - Fast Localhost Manager")
         title.setFont(QFont("Arial", 14, QFont.Weight.Bold))
         layout.addWidget(title)
 
         layout.addStretch()
 
-        status = QLabel("Status: Ready")
+        status = QLabel("Status: Ready (127.0.0.1)")
         status.setStyleSheet("color: #27ae60; font-weight: bold;")
         self.status_label = status
         layout.addWidget(status)
 
         header.setLayout(layout)
-        header.setStyleSheet("background-color: #2c3e50; padding: 10px;")
+        header.setStyleSheet("background-color: #2c3e50; padding: 5px;")
         return header
 
     def create_accounts_tab(self):
@@ -68,16 +75,19 @@ class BatmanMainWindow(QMainWindow):
 
         # Add account section
         add_layout = QHBoxLayout()
-        add_layout.addWidget(QLabel("Phone Number:"))
+        add_layout.addWidget(QLabel("Phone:"))
         
         self.phone_input = QLineEdit()
         self.phone_input.setPlaceholderText("+1234567890")
+        self.phone_input.setMaximumWidth(200)
         add_layout.addWidget(self.phone_input)
 
         add_btn = QPushButton("Add Account")
         add_btn.clicked.connect(self.add_account)
         add_btn.setStyleSheet(self.get_button_stylesheet("#27ae60"))
+        add_btn.setMaximumWidth(120)
         add_layout.addWidget(add_btn)
+        add_layout.addStretch()
 
         layout.addLayout(add_layout)
 
@@ -100,7 +110,7 @@ class BatmanMainWindow(QMainWindow):
         disconnect_btn.setStyleSheet(self.get_button_stylesheet("#e74c3c"))
         actions_layout.addWidget(disconnect_btn)
 
-        remove_btn = QPushButton("Remove Account")
+        remove_btn = QPushButton("Remove")
         remove_btn.clicked.connect(self.remove_account)
         remove_btn.setStyleSheet(self.get_button_stylesheet("#c0392b"))
         actions_layout.addWidget(remove_btn)
@@ -116,21 +126,24 @@ class BatmanMainWindow(QMainWindow):
 
         # Load groups section
         load_layout = QHBoxLayout()
-        load_layout.addWidget(QLabel("Select Account:"))
+        load_layout.addWidget(QLabel("Account:"))
 
         self.account_combo = QLineEdit()
         self.account_combo.setReadOnly(True)
+        self.account_combo.setMaximumWidth(200)
         load_layout.addWidget(self.account_combo)
 
         load_btn = QPushButton("Load Groups")
         load_btn.clicked.connect(self.load_groups)
         load_btn.setStyleSheet(self.get_button_stylesheet("#9b59b6"))
+        load_btn.setMaximumWidth(120)
         load_layout.addWidget(load_btn)
+        load_layout.addStretch()
 
         layout.addLayout(load_layout)
 
         # Groups list
-        layout.addWidget(QLabel("Available Groups:"))
+        layout.addWidget(QLabel(f"Available Groups (0 loaded):"))
         self.groups_list = QListWidget()
         self.groups_list.setSelectionMode(self.groups_list.SelectionMode.MultiSelection)
         layout.addWidget(self.groups_list)
@@ -151,24 +164,25 @@ class BatmanMainWindow(QMainWindow):
         # Message section
         layout.addWidget(QLabel("Message:"))
         self.message_text = QTextEdit()
-        self.message_text.setMinimumHeight(150)
+        self.message_text.setMinimumHeight(120)
         layout.addWidget(self.message_text)
 
         # Delay section
         delay_layout = QHBoxLayout()
-        delay_layout.addWidget(QLabel("Delay between messages (seconds):"))
+        delay_layout.addWidget(QLabel("Delay (sec):"))
         
         self.delay_spinbox = QSpinBox()
         self.delay_spinbox.setMinimum(1)
         self.delay_spinbox.setMaximum(3600)
-        self.delay_spinbox.setValue(5)
+        self.delay_spinbox.setValue(3)
+        self.delay_spinbox.setMaximumWidth(80)
         delay_layout.addWidget(self.delay_spinbox)
         delay_layout.addStretch()
 
         layout.addLayout(delay_layout)
 
         # Options
-        self.markdown_checkbox = QCheckBox("Use Markdown formatting")
+        self.markdown_checkbox = QCheckBox("Use Markdown")
         self.markdown_checkbox.setChecked(True)
         layout.addWidget(self.markdown_checkbox)
 
@@ -180,7 +194,7 @@ class BatmanMainWindow(QMainWindow):
         preview_btn.setStyleSheet(self.get_button_stylesheet("#3498db"))
         buttons_layout.addWidget(preview_btn)
 
-        broadcast_btn = QPushButton("Send to All Groups")
+        broadcast_btn = QPushButton("🚀 Send to All Groups")
         broadcast_btn.clicked.connect(self.broadcast_message)
         broadcast_btn.setStyleSheet(self.get_button_stylesheet("#e74c3c"))
         buttons_layout.addWidget(broadcast_btn)
@@ -218,7 +232,7 @@ class BatmanMainWindow(QMainWindow):
         if success:
             self.phone_input.clear()
             self.load_accounts_list()
-            self.log(f"Account added: {phone}")
+            self.log(f"✓ Account added: {phone}")
             self.add_account_step2(phone)
         else:
             QMessageBox.warning(self, "Error", message)
@@ -232,7 +246,7 @@ class BatmanMainWindow(QMainWindow):
 
     async def _async_add_account(self, phone):
         success, message = await account_manager.connect_account(phone)
-        self.log(f"{phone}: {message}")
+        self.log(f"→ {phone}: {message}")
         if not success and "Code sent" in message:
             QMessageBox.information(self, "Verification", message)
 
@@ -249,7 +263,7 @@ class BatmanMainWindow(QMainWindow):
 
     async def _async_verify_code(self, phone, code):
         success, message = await account_manager.verify_code(phone, code)
-        self.log(f"{phone}: {message}")
+        self.log(f"→ {phone}: {message}")
         if success:
             QMessageBox.information(self, "Success", message)
             self.load_accounts_list()
@@ -264,7 +278,7 @@ class BatmanMainWindow(QMainWindow):
                 account_manager.disconnect_account(phone),
                 self.loop
             )
-            self.log(f"Disconnected: {phone}")
+            self.log(f"✗ Disconnected: {phone}")
 
     def remove_account(self):
         selected = self.accounts_list.currentItem()
@@ -274,7 +288,7 @@ class BatmanMainWindow(QMainWindow):
             if reply == QMessageBox.StandardButton.Yes:
                 account_manager.remove_account(phone)
                 self.load_accounts_list()
-                self.log(f"Account removed: {phone}")
+                self.log(f"✗ Account removed: {phone}")
 
     def load_accounts_list(self):
         self.accounts_list.clear()
@@ -286,6 +300,7 @@ class BatmanMainWindow(QMainWindow):
     def on_account_selected(self, item):
         phone = item.text().split(" - ")[0]
         self.account_combo.setText(phone)
+        self.selected_account = phone
 
     def load_groups(self):
         phone = self.account_combo.text().strip()
@@ -299,20 +314,22 @@ class BatmanMainWindow(QMainWindow):
         )
 
     async def _async_load_groups(self, phone):
+        self.log(f"⏳ Loading groups from {phone}...")
         client = await account_manager.get_client(phone)
         if not client:
-            self.log(f"Error: Cannot connect to {phone}")
+            self.log(f"✗ Error: Cannot connect to {phone}")
             return
 
         groups = await group_manager.load_groups(client)
         self.groups_list.clear()
+        self.loaded_groups = groups
 
         for group in groups:
-            item = QListWidgetItem(group['title'])
-            item.setData(Qt.ItemDataRole.UserRole, group)
+            item = QListWidgetItem(f"[{group['type'].upper()}] {group['title']}")
+            item.setData(1001, group)
             self.groups_list.addItem(item)
 
-        self.log(f"Loaded {len(groups)} groups from {phone}")
+        self.log(f"✓ Loaded {len(groups)} groups from {phone}")
 
     def save_selected_groups(self):
         phone = self.account_combo.text().strip()
@@ -321,10 +338,10 @@ class BatmanMainWindow(QMainWindow):
             return
 
         selected_items = self.groups_list.selectedItems()
-        groups = [item.data(Qt.ItemDataRole.UserRole) for item in selected_items]
+        groups = [item.data(1001) for item in selected_items]
 
         account_manager.update_groups(phone, groups)
-        self.log(f"Saved {len(groups)} groups for {phone}")
+        self.log(f"✓ Saved {len(groups)} groups for {phone}")
         QMessageBox.information(self, "Success", f"Saved {len(groups)} groups")
 
     def preview_message(self):
@@ -356,27 +373,31 @@ class BatmanMainWindow(QMainWindow):
             client = await account_manager.get_client(phone)
 
             if not client:
-                self.log(f"Skipping {phone}: Not connected")
+                self.log(f"⊘ Skipping {phone}: Not connected")
                 continue
 
             for group in account['groups']:
                 try:
                     await group_manager.send_message(client, group['entity'], message)
                     total_sent += 1
-                    self.log(f"Message sent to {group['title']} from {phone}")
+                    self.log(f"✓ {group['title']} ({phone})")
 
-                    # Wait before next message
-                    import time
-                    time.sleep(delay)
+                    # Wait before next message (async sleep for better responsiveness)
+                    import asyncio as aio
+                    await aio.sleep(delay)
 
                 except Exception as e:
-                    self.log(f"Error sending to {group['title']}: {str(e)}")
+                    self.log(f"✗ Error {group['title']}: {str(e)}")
 
-        self.log(f"\nBroadcast complete! Total messages sent: {total_sent}")
-        QMessageBox.information(self, "Complete", f"Broadcast complete! {total_sent} messages sent")
+        self.log(f"\n✓✓✓ Broadcast complete! {total_sent} messages sent ✓✓✓")
+        QMessageBox.information(self, "Complete", f"Broadcast complete!\n{total_sent} messages sent")
 
     def log(self, message):
         self.logs_text.append(message)
+        # Auto-scroll to bottom
+        self.logs_text.verticalScrollBar().setValue(
+            self.logs_text.verticalScrollBar().maximum()
+        )
 
     def get_input_dialog(self, prompt):
         from PyQt6.QtWidgets import QInputDialog
@@ -387,45 +408,58 @@ class BatmanMainWindow(QMainWindow):
     def get_main_stylesheet():
         return """
         QMainWindow {
-            background-color: #ecf0f1;
+            background-color: #1a1a1a;
         }
         QLabel {
-            color: #2c3e50;
-            font-size: 12px;
+            color: #ecf0f1;
+            font-size: 11px;
         }
         QLineEdit, QTextEdit, QSpinBox {
-            padding: 6px;
-            border: 1px solid #bdc3c7;
-            border-radius: 3px;
-            background-color: white;
-            color: #2c3e50;
+            padding: 5px;
+            border: 1px solid #34495e;
+            border-radius: 2px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            font-size: 11px;
         }
         QLineEdit:focus, QTextEdit:focus {
             border: 2px solid #3498db;
         }
         QListWidget {
-            border: 1px solid #bdc3c7;
-            border-radius: 3px;
-            background-color: white;
+            border: 1px solid #34495e;
+            border-radius: 2px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+        }
+        QListWidget::item {
+            padding: 3px;
         }
         QListWidget::item:selected {
             background-color: #3498db;
-            color: white;
         }
         QTabWidget::pane {
-            border: 1px solid #bdc3c7;
+            border: 1px solid #34495e;
         }
         QTabBar::tab {
-            background-color: #95a5a6;
-            color: white;
-            padding: 6px 20px;
+            background-color: #34495e;
+            color: #ecf0f1;
+            padding: 5px 15px;
+            margin: 2px;
         }
         QTabBar::tab:selected {
             background-color: #3498db;
         }
         QCheckBox {
-            color: #2c3e50;
-            spacing: 5px;
+            color: #ecf0f1;
+            spacing: 3px;
+        }
+        QScrollBar:vertical {
+            background-color: #2c3e50;
+            width: 10px;
+        }
+        QScrollBar::handle:vertical {
+            background-color: #34495e;
+            border-radius: 5px;
         }
         """
 
@@ -436,10 +470,10 @@ class BatmanMainWindow(QMainWindow):
             background-color: {color};
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
+            padding: 5px 10px;
+            border-radius: 2px;
             font-weight: bold;
-            font-size: 12px;
+            font-size: 11px;
         }}
         QPushButton:hover {{
             background-color: {color}dd;

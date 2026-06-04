@@ -2,6 +2,7 @@
 import sys
 import asyncio
 from PyQt6.QtWidgets import QApplication
+from PyQt6.QtCore import Qt
 from config import config
 from ui_setup import SetupDialog
 from ui_main import BatmanMainWindow
@@ -20,7 +21,13 @@ def start_event_loop():
     return loop
 
 def main():
+    # Create QApplication with optimized settings
     app = QApplication(sys.argv)
+    
+    # Performance optimizations for localhost
+    app.setAttribute(Qt.ApplicationAttribute.AA_UseHighDpiPixmaps, True)
+    app.setAttribute(Qt.ApplicationAttribute.AA_EnableHighDpiScaling, True)
+    app.setAttribute(Qt.ApplicationAttribute.AA_UseStyleSheetPropagationInWidgetStyles, True)
 
     # Start event loop for async operations
     loop = start_event_loop()
