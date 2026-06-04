@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦇 Batman - Telegram Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ecf0f1;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        header h1 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 28px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: #27ae60;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-left: auto;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #34495e;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: rgba(52, 73, 94, 0.5);
+            color: #ecf0f1;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 4px 4px 0 0;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            background: rgba(52, 152, 219, 0.7);
+        }
+
+        .tab-btn.active {
+            background: #3498db;
+            border-bottom: 3px solid #e74c3c;
+        }
+
+        .tab-content {
+            display: none;
+            background: rgba(44, 62, 80, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #bdc3c7;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="password"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            background: #34495e;
+            border: 1px solid #34495e;
+            color: #ecf0f1;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="password"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #3498db;
+            background: #2c3e50;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+        }
+
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 100px;
+        }
+
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.danger {
+            background: #e74c3c;
+        }
+
+        button.danger:hover {
+            background: #c0392b;
+        }
+
+        button.success {
+            background: #27ae60;
+        }
+
+        button.success:hover {
+            background: #229954;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .list-item {
+            background: rgba(52, 73, 94, 0.5);
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 3px solid #3498db;
+            transition: all 0.3s ease;
+        }
+
+        .list-item:hover {
+            background: rgba(52, 152, 219, 0.3);
+        }
+
+        .list-item.selected {
+            background: rgba(52, 152, 219, 0.5);
+            border-left-color: #27ae60;
+        }
+
+        .log-box {
+            background: #1a1a1a;
+            border: 1px solid #34495e;
+            padding: 15px;
+            border-radius: 4px;
+            height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .log-entry {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .log-entry.success {
+            color: #27ae60;
+        }
+
+        .log-entry.error {
+            color: #e74c3c;
+        }
+
+        .log-entry.info {
+            color: #3498db;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(52, 152, 219, 0.3);
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .alert {
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border-left: 4px solid;
+        }
+
+        .alert.success {
+            background: rgba(39, 174, 96, 0.2);
+            border-left-color: #27ae60;
+            color: #27ae60;
+        }
+
+        .alert.error {
+            background: rgba(231, 76, 60, 0.2);
+            border-left-color: #e74c3c;
+            color: #e74c3c;
+        }
+
+        .alert.info {
+            background: rgba(52, 152, 219, 0.2);
+            border-left-color: #3498db;
+            color: #3498db;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(52, 73, 94, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(52, 152, 219, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .spinner {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            header h1 {
+                font-size: 20px;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                width: 100%;
+            }
+
+            .log-box {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>
+                🦇 Batman
+                <span style="font-size: 18px; color: #bdc3c7;">Telegram Multi-Account Manager</span>
+                <span class="status-badge" id="status">Ready</span>
+            </h1>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('setup')">⚙️ Setup</button>
+            <button class="tab-btn" onclick="showTab('accounts')">👥 Accounts</button>
+            <button class="tab-btn" onclick="showTab('groups')">📁 Groups</button>
+            <button class="tab-btn" onclick="showTab('broadcast')">📢 Broadcast</button>
+            <button class="tab-btn" onclick="showTab('logs')">📝 Logs</button>
+        </div>
+
+        <!-- Setup Tab -->
+        <div id="setup" class="tab-content active">
+            <h2>API Configuration</h2>
+            <div id="setup-alert"></div>
+            <div class="form-group">
+                <label>API ID (from my.telegram.org)</label>
+                <input type="text" id="apiId" placeholder="Enter your API ID">
+            </div>
+            <div class="form-group">
+                <label>API Hash (from my.telegram.org)</label>
+                <input type="text" id="apiHash" placeholder="Enter your API Hash">
+            </div>
+            <div class="form-group">
+                <button class="success" onclick="saveConfig()">💾 Save Configuration</button>
+            </div>
+            <div style="margin-top: 20px; padding: 15px; background: rgba(52, 152, 219, 0.1); border-radius: 4px;">
+                <p><strong>How to get API credentials:</strong></p>
+                <ol style="margin: 10px 0 0 20px;">
+                    <li>Go to <a href="https://my.telegram.org" target="_blank" style="color: #3498db;">https://my.telegram.org</a></li>
+                    <li>Log in with your Telegram account</li>
+                    <li>Click "API development tools"</li>
+                    <li>Create a new application</li>
+                    <li>Copy API ID and API Hash</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Accounts Tab -->
+        <div id="accounts" class="tab-content">
+            <h2>Account Management</h2>
+            <div id="accounts-alert"></div>
+            
+            <div class="card" style="margin-bottom: 20px;">
+                <h3>Add New Account</h3>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="text" id="phoneInput" placeholder="+1234567890">
+                </div>
+                <button class="success" onclick="addAccount()">➕ Add Account</button>
+            </div>
+
+            <h3>Connected Accounts</h3>
+            <div id="accountsList"></div>
+
+            <div id="accountActions" style="display: none; margin-top: 20px;">
+                <h3>Account Actions</h3>
+                <div class="form-group">
+                    <label>Verification Code (if needed)</label>
+                    <input type="text" id="codeInput" placeholder="Enter code from Telegram">
+                </div>
+                <div class="btn-group">
+                    <button onclick="verifyCode()">✓ Verify Code</button>
+                    <button class="danger" onclick="disconnectAccount()">🔌 Disconnect</button>
+                    <button class="danger" onclick="removeAccount()" style="background: #c0392b;">🗑️ Remove</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Groups Tab -->
+        <div id="groups" class="tab-content">
+            <h2>Group Management</h2>
+            <div id="groups-alert"></div>
+            
+            <div class="card" style="margin-bottom: 20px;">
+                <h3>Load Groups</h3>
+                <div class="form-group">
+                    <label>Select Account</label>
+                    <select id="accountSelect">
+                        <option value="">Choose an account...</option>
+                    </select>
+                </div>
+                <button class="success" onclick="loadGroups()">📥 Load Groups</button>
+            </div>
+
+            <h3>Available Groups</h3>
+            <div id="groupsList" class="list-item" style="display: block; border: none; background: transparent; padding: 0;">
+                <p style="color: #95a5a6;">No groups loaded yet</p>
+            </div>
+
+            <div id="groupActions" style="display: none; margin-top: 20px;">
+                <button class="success" onclick="saveSelectedGroups()">💾 Save Selected Groups</button>
+            </div>
+        </div>
+
+        <!-- Broadcast Tab -->
+        <div id="broadcast" class="tab-content">
+            <h2>Broadcast Message</h2>
+            <div id="broadcast-alert"></div>
+            
+            <div class="form-group">
+                <label>Message</label>
+                <textarea id="messageInput" placeholder="Enter your message here... Markdown supported!"></textarea>
+            </div>
+
+            <div class="grid">
+                <div class="form-group">
+                    <label>Delay Between Messages (seconds)</label>
+                    <input type="number" id="delayInput" value="3" min="1" max="3600">
+                </div>
+                <div class="form-group">
+                    <label>Formatting</label>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="markdownCheckbox" checked>
+                        <label for="markdownCheckbox" style="margin: 0;">Use Markdown</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button onclick="previewMessage()">👁️ Preview</button>
+                <button class="danger" onclick="sendBroadcast()">🚀 Send Broadcast</button>
+            </div>
+
+            <div id="preview" style="display: none; margin-top: 20px; padding: 15px; background: rgba(52, 152, 219, 0.1); border-radius: 4px; border-left: 3px solid #3498db;">
+                <h3>Message Preview</h3>
+                <div id="previewContent"></div>
+            </div>
+        </div>
+
+        <!-- Logs Tab -->
+        <div id="logs" class="tab-content">
+            <h2>Activity Logs</h2>
+            <button onclick="clearLogs()" style="margin-bottom: 15px;">🗑️ Clear Logs</button>
+            <div class="log-box" id="logsBox"></div>
+        </div>
+    </div>
+
+    <script>
+        let selectedAccount = null;
+        let selectedGroups = [];
+        let allGroups = [];
+
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabName === 'logs') {
+                refreshLogs();
+            }
+        }
+
+        function showAlert(tabId, message, type = 'info') {
+            const alertEl = document.getElementById(tabId + '-alert');
+            alertEl.innerHTML = `<div class="alert ${type}">${message}</div>`;
+            setTimeout(() => {
+                alertEl.innerHTML = '';
+            }, 5000);
+        }
+
+        // Setup Functions
+        async function saveConfig() {
+            const apiId = document.getElementById('apiId').value.trim();
+            const apiHash = document.getElementById('apiHash').value.trim();
+
+            if (!apiId || !apiHash) {
+                showAlert('setup', '❌ Please enter both API ID and Hash', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/config/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ api_id: apiId, api_hash: apiHash })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showAlert('setup', '✅ Configuration saved successfully!', 'success');
+                    loadAccounts();
+                } else {
+                    showAlert('setup', '❌ ' + data.message, 'error');
+                }
+            } catch (error) {
+                showAlert('setup', '❌ Error: ' + error.message, 'error');
+            }
+        }
+
+        // Account Functions
+        async function addAccount() {
+            const phone = document.getElementById('phoneInput').value.trim();
+
+            if (!phone) {
+                showAlert('accounts', '❌ Please enter a phone number', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/accounts/add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showAlert('accounts', '✅ ' + data.message, 'success');
+                    document.getElementById('phoneInput').value = '';
+                    loadAccounts();
+                } else {
+                    showAlert('accounts', '❌ ' + data.message, 'error');
+                }
+            } catch (error) {
+                showAlert('accounts', '❌ Error: ' + error.message, 'error');
+            }
+        }
+
+        async function loadAccounts() {
+            try {
+                const response = await fetch('/api/accounts');
+                const accounts = await response.json();
+
+                const list = document.getElementById('accountsList');
+                list.innerHTML = '';
+
+                accounts.forEach(acc => {
+                    const item = document.createElement('div');
+                    item.className = 'list-item';
+                    item.onclick = () => selectAccount(acc.phone);
+                    item.innerHTML = `
+                        <div>
+                            <strong>${acc.phone}</strong> - <span style="color: #95a5a6;">${acc.status}</span>
+                        </div>
+                    `;
+                    list.appendChild(item);
+                });
+
+                // Update account select
+                const select = document.getElementById('accountSelect');
+                const currentValue = select.value;
+                select.innerHTML = '<option value="">Choose an account...</option>';
+                accounts.forEach(acc => {
+                    const option = document.createElement('option');
+                    option.value = acc.phone;
+                    option.textContent = acc.phone;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading accounts:', error);
+            }
+        }
+
+        function selectAccount(phone) {
+            selectedAccount = phone;
+            document.getElementById('accountActions').style.display = 'block';
+            document.querySelectorAll('#accountsList .list-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            event.target.closest('.list-item').classList.add('selected');
+        }
+
+        async function verifyCode() {
+            if (!selectedAccount) {
+                showAlert('accounts', '❌ Please select an account', 'error');
+                return;
+            }
+
+            const code = document.getElementById('codeInput').value.trim();
+            if (!code) {
+                showAlert('accounts', '❌ Please enter the verification code', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/accounts/${selectedAccount}/verify-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showAlert('accounts', '✅ Code verified!', 'success');
+                    document.getElementById('codeInput').value = '';
+                    loadAccounts();
+                } else {
+                    showAlert('accounts', '❌ ' + data.message, 'error');
+                }
+            } catch (error) {
+                showAlert('accounts', '❌ Error: ' + error.message, 'error');
+            }
+        }
+
+        async function disconnectAccount() {
+            if (!selectedAccount) return;
+            try {
+                await fetch(`/api/accounts/${selectedAccount}/disconnect`, { method: 'POST' });
+                showAlert('accounts', '✅ Account disconnected', 'success');
+                loadAccounts();
+            } catch (error) {
+                showAlert('accounts', '❌ Error: ' + error.message, 'error');
+            }
+        }
+
+        async function removeAccount() {
+            if (!selectedAccount || !confirm('Remove this account?')) return;
+            try {
+                await fetch(`/api/accounts/${selectedAccount}/remove`, { method: 'POST' });
+                showAlert('accounts', '✅ Account removed', 'success');
+                loadAccounts();
+            } catch (error) {
+                showAlert('accounts', '❌ Error: ' + error.message, 'error');
+            }
+        }
+
+        // Groups Functions
+        async function loadGroups() {
+            const phone = document.getElementById('accountSelect').value;
+            if (!phone) {
+                showAlert('groups', '❌ Please select an account', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/groups/load/${phone}`, { method: 'POST' });
+                const data = await response.json();
+
+                if (data.success) {
+                    allGroups = data.groups;
+                    displayGroups();
+                    document.getElementById('groupActions').style.display = 'block';
+                    showAlert('groups', `✅ Loaded ${data.groups.length} groups`, 'success');
+                } else {
+                    showAlert('groups', '❌ ' + data.message, 'error');
+                }
+            } catch (error) {
+                showAlert('groups', '❌ Error: ' + error.message, 'error');
+            }
+        }
+
+        function displayGroups() {
+            const list = document.getElementById('groupsList');
+            list.innerHTML = '';
+            list.style.display = 'block';
+            list.style.border = 'none';
+            list.style.background = 'transparent';
+            list.style.padding = '0';
+
+            allGroups.forEach((group, index) => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.style.marginBottom = '5px';
+                item.innerHTML = `
+                    <div style="flex: 1;">
+                        <input type="checkbox" id="group-${index}" onchange="updateSelected()">
+                        <label for="group-${index}" style="margin: 0; display: inline; margin-left: 10px; cursor: pointer;">
+                            [${group.type.toUpperCase()}] ${group.title}
+                        </label>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function updateSelected() {
+            selectedGroups = [];
+            allGroups.forEach((group, index) => {
+                const checkbox = document.getElementById(`group-${index}`);
+                if (checkbox && checkbox.checked) {
+                    selectedGroups.push(group);
+                }
+            });
+        }
+
+        async function saveSelectedGroups() {
+            const phone = document.getElementById('accountSelect').value;
+            if (!phone) {
+                showAlert('groups', '❌ Please select an account', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/groups/save/${phone}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ groups: selectedGroups })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showAlert('groups', `✅ Saved ${selectedGroups.length} groups`, 'success');
+                } else {
+                    showAlert('groups', '❌ ' + data.message, 'error');
+                }
+            } catch (error) {
+                showAlert('groups', '❌ Error: ' + error.message, 'error');
+            }
+        }
+
+        // Broadcast Functions
+        function previewMessage() {
+            const message = document.getElementById('messageInput').value;
+            if (!message) {
+                showAlert('broadcast', '❌ Message is empty', 'error');
+                return;
+            }
+            const preview = document.getElementById('preview');
+            const content = document.getElementById('previewContent');
+            content.textContent = message;
+            preview.style.display = 'block';
+        }
+
+        async function sendBroadcast() {
+            const message = document.getElementById('messageInput').value.trim();
+            const delay = document.getElementById('delayInput').value;
+
+            if (!message) {
+                showAlert('broadcast', '❌ Message is empty', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/broadcast', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message, delay: parseInt(delay) })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showAlert('broadcast', `✅ ${data.message}`, 'success');
+                    document.getElementById('messageInput').value = '';
+                    refreshLogs();
+                } else {
+                    showAlert('broadcast', '❌ ' + data.message, 'error');
+                }
+            } catch (error) {
+                showAlert('broadcast', '❌ Error: ' + error.message, 'error');
+            }
+        }
+
+        // Logs Functions
+        async function refreshLogs() {
+            try {
+                const response = await fetch('/api/logs');
+                const data = await response.json();
+                const logsBox = document.getElementById('logsBox');
+                logsBox.innerHTML = '';
+
+                data.logs.forEach(log => {
+                    const entry = document.createElement('div');
+                    entry.className = 'log-entry';
+                    
+                    if (log.includes('✓')) {
+                        entry.classList.add('success');
+                    } else if (log.includes('✗') || log.includes('Error')) {
+                        entry.classList.add('error');
+                    } else {
+                        entry.classList.add('info');
+                    }
+                    
+                    entry.textContent = log;
+                    logsBox.appendChild(entry);
+                });
+
+                logsBox.scrollTop = logsBox.scrollHeight;
+            } catch (error) {
+                console.error('Error loading logs:', error);
+            }
+        }
+
+        async function clearLogs() {
+            try {
+                await fetch('/api/logs/clear', { method: 'POST' });
+                document.getElementById('logsBox').innerHTML = '';
+            } catch (error) {
+                console.error('Error clearing logs:', error);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAccounts();
+            refreshLogs();
+            setInterval(refreshLogs, 2000);
+        });
+    </script>
+</body>
+</html>
