@@ -1,8 +1,11 @@
 telethon==1.35.0
-PyQt6==6.7.0
-PyQt6-sip==13.6.0
-cryptg==0.4.1
+Flask==3.0.0
+Flask-SocketIO==5.3.5
+python-socketio==5.10.0
+Flask-CORS==4.0.0
 python-dotenv==1.0.0
 pyaes==1.6.1
 rsa==4.9
 requests==2.31.0
+cryptg==0.4.1
+Python-EngineIO==4.8.0

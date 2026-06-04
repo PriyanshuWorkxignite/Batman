@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
             color: #ecf0f1;
             min-height: 100vh;
         }
@@ -25,27 +25,30 @@
         }
 
         header {
-            background: rgba(0, 0, 0, 0.5);
+            background: #2c3e50;
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 20px;
-            border-left: 4px solid #e74c3c;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
-        header h1 {
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .status {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 10px;
-            font-size: 28px;
+            font-size: 14px;
         }
 
         .status-badge {
-            display: inline-block;
             background: #27ae60;
             padding: 5px 15px;
             border-radius: 20px;
-            font-size: 12px;
-            margin-left: auto;
+            font-weight: bold;
         }
 
         .tabs {
@@ -53,442 +56,427 @@
             gap: 10px;
             margin-bottom: 20px;
             border-bottom: 2px solid #34495e;
-            flex-wrap: wrap;
+            background: #2c3e50;
+            border-radius: 8px 8px 0 0;
+            padding: 10px;
         }
 
-        .tab-btn {
-            background: rgba(52, 73, 94, 0.5);
-            color: #ecf0f1;
+        .tab-button {
+            padding: 10px 20px;
+            background: transparent;
             border: none;
-            padding: 12px 24px;
+            color: #ecf0f1;
             cursor: pointer;
-            font-size: 14px;
-            border-radius: 4px 4px 0 0;
-            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
         }
 
-        .tab-btn:hover {
-            background: rgba(52, 152, 219, 0.7);
+        .tab-button.active {
+            border-bottom-color: #3498db;
+            color: #3498db;
         }
 
-        .tab-btn.active {
-            background: #3498db;
-            border-bottom: 3px solid #e74c3c;
+        .tab-button:hover {
+            color: #3498db;
         }
 
         .tab-content {
             display: none;
-            background: rgba(44, 62, 80, 0.8);
+            background: #2c3e50;
             padding: 20px;
-            border-radius: 8px;
-            backdrop-filter: blur(10px);
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
         .tab-content.active {
             display: block;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: 500;
-            color: #bdc3c7;
+            color: #ecf0f1;
         }
 
         input[type="text"],
         input[type="number"],
-        input[type="password"],
         textarea,
         select {
             width: 100%;
             padding: 10px;
             background: #34495e;
-            border: 1px solid #34495e;
-            color: #ecf0f1;
+            border: 1px solid #45566f;
             border-radius: 4px;
-            font-size: 14px;
+            color: #ecf0f1;
             font-family: inherit;
-            transition: all 0.3s ease;
+            font-size: 14px;
         }
 
         input[type="text"]:focus,
         input[type="number"]:focus,
-        input[type="password"]:focus,
         textarea:focus,
         select:focus {
             outline: none;
             border-color: #3498db;
-            background: #2c3e50;
-            box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
-        }
-
-        button {
-            background: #3498db;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            min-width: 100px;
-        }
-
-        button:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        button.danger {
-            background: #e74c3c;
-        }
-
-        button.danger:hover {
-            background: #c0392b;
-        }
-
-        button.success {
-            background: #27ae60;
-        }
-
-        button.success:hover {
-            background: #229954;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-
-        .list-item {
-            background: rgba(52, 73, 94, 0.5);
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 3px solid #3498db;
-            transition: all 0.3s ease;
-        }
-
-        .list-item:hover {
-            background: rgba(52, 152, 219, 0.3);
-        }
-
-        .list-item.selected {
-            background: rgba(52, 152, 219, 0.5);
-            border-left-color: #27ae60;
-        }
-
-        .log-box {
-            background: #1a1a1a;
-            border: 1px solid #34495e;
-            padding: 15px;
-            border-radius: 4px;
-            height: 400px;
-            overflow-y: auto;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            line-height: 1.6;
-        }
-
-        .log-entry {
-            padding: 5px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .log-entry.success {
-            color: #27ae60;
-        }
-
-        .log-entry.error {
-            color: #e74c3c;
-        }
-
-        .log-entry.info {
-            color: #3498db;
-        }
-
-        .loading {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            border: 2px solid rgba(52, 152, 219, 0.3);
-            border-top: 2px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .alert {
-            padding: 12px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            border-left: 4px solid;
-        }
-
-        .alert.success {
-            background: rgba(39, 174, 96, 0.2);
-            border-left-color: #27ae60;
-            color: #27ae60;
-        }
-
-        .alert.error {
-            background: rgba(231, 76, 60, 0.2);
-            border-left-color: #e74c3c;
-            color: #e74c3c;
-        }
-
-        .alert.info {
-            background: rgba(52, 152, 219, 0.2);
-            border-left-color: #3498db;
-            color: #3498db;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .card {
-            background: rgba(52, 73, 94, 0.5);
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid rgba(52, 152, 219, 0.2);
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
         }
 
         textarea {
             resize: vertical;
             min-height: 120px;
+            font-family: 'Courier New', monospace;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #d68910;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .list-group {
+            background: #34495e;
+            border: 1px solid #45566f;
+            border-radius: 4px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+
+        .list-item {
+            padding: 12px;
+            border-bottom: 1px solid #45566f;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item:hover {
+            background: #45566f;
+        }
+
+        .list-item.selected {
+            background: #3498db;
         }
 
         .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            margin-bottom: 15px;
         }
 
-        input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #34495e;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
             cursor: pointer;
+        }
+
+        .logs {
+            background: #1a1a1a;
+            border: 1px solid #45566f;
+            border-radius: 4px;
+            padding: 15px;
+            height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .log-entry {
+            padding: 5px 0;
+            border-bottom: 1px solid #45566f;
+        }
+
+        .log-timestamp {
+            color: #95a5a6;
+        }
+
+        .log-message {
+            color: #ecf0f1;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .alert-info {
+            background: #3498db;
+            color: white;
+        }
+
+        .alert-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .alert-error {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .alert-warning {
+            background: #f39c12;
+            color: white;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: #34495e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            color: #3498db;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .tab-button {
+                flex: 1;
+                min-width: 100px;
+            }
         }
 
         .spinner {
             display: inline-block;
-            margin-right: 10px;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ecf0f1;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-
-            header h1 {
-                font-size: 20px;
-            }
-
-            .tabs {
-                flex-direction: column;
-            }
-
-            .tab-btn {
-                width: 100%;
-            }
-
-            .log-box {
-                height: 300px;
-            }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>
-                🦇 Batman
-                <span style="font-size: 18px; color: #bdc3c7;">Telegram Multi-Account Manager</span>
+            <h1>🦇 Batman - Telegram Multi-Account Manager</h1>
+            <div class="status">
+                <span>Web-based Telegram automation tool</span>
                 <span class="status-badge" id="status">Ready</span>
-            </h1>
+            </div>
         </header>
 
         <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('setup')">⚙️ Setup</button>
-            <button class="tab-btn" onclick="showTab('accounts')">👥 Accounts</button>
-            <button class="tab-btn" onclick="showTab('groups')">📁 Groups</button>
-            <button class="tab-btn" onclick="showTab('broadcast')">📢 Broadcast</button>
-            <button class="tab-btn" onclick="showTab('logs')">📝 Logs</button>
+            <button class="tab-button active" onclick="showTab('setup')">Setup</button>
+            <button class="tab-button" onclick="showTab('accounts')">Accounts</button>
+            <button class="tab-button" onclick="showTab('groups')">Groups</button>
+            <button class="tab-button" onclick="showTab('broadcast')">Broadcast</button>
+            <button class="tab-button" onclick="showTab('logs')">Logs</button>
         </div>
 
         <!-- Setup Tab -->
         <div id="setup" class="tab-content active">
-            <h2>API Configuration</h2>
-            <div id="setup-alert"></div>
-            <div class="form-group">
-                <label>API ID (from my.telegram.org)</label>
-                <input type="text" id="apiId" placeholder="Enter your API ID">
-            </div>
-            <div class="form-group">
-                <label>API Hash (from my.telegram.org)</label>
-                <input type="text" id="apiHash" placeholder="Enter your API Hash">
-            </div>
-            <div class="form-group">
-                <button class="success" onclick="saveConfig()">💾 Save Configuration</button>
-            </div>
-            <div style="margin-top: 20px; padding: 15px; background: rgba(52, 152, 219, 0.1); border-radius: 4px;">
-                <p><strong>How to get API credentials:</strong></p>
-                <ol style="margin: 10px 0 0 20px;">
-                    <li>Go to <a href="https://my.telegram.org" target="_blank" style="color: #3498db;">https://my.telegram.org</a></li>
-                    <li>Log in with your Telegram account</li>
-                    <li>Click "API development tools"</li>
-                    <li>Create a new application</li>
-                    <li>Copy API ID and API Hash</li>
-                </ol>
+            <div class="card">
+                <h3>🔐 Telegram API Configuration</h3>
+                <div class="alert alert-info">
+                    Get your API credentials from <a href="https://my.telegram.org" target="_blank" style="color: white; text-decoration: underline;">my.telegram.org</a>
+                </div>
+                <div class="form-group">
+                    <label>API ID:</label>
+                    <input type="number" id="apiId" placeholder="Enter your API ID">
+                </div>
+                <div class="form-group">
+                    <label>API Hash:</label>
+                    <input type="text" id="apiHash" placeholder="Enter your API Hash">
+                </div>
+                <button class="btn-success" onclick="saveConfig()">Save Configuration</button>
             </div>
         </div>
 
         <!-- Accounts Tab -->
         <div id="accounts" class="tab-content">
-            <h2>Account Management</h2>
-            <div id="accounts-alert"></div>
-            
-            <div class="card" style="margin-bottom: 20px;">
-                <h3>Add New Account</h3>
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="text" id="phoneInput" placeholder="+1234567890">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>➕ Add Account</h3>
+                    <div class="form-group">
+                        <label>Phone Number:</label>
+                        <input type="text" id="phoneInput" placeholder="+1234567890">
+                    </div>
+                    <button class="btn-success" onclick="addAccount()">Add Account</button>
                 </div>
-                <button class="success" onclick="addAccount()">➕ Add Account</button>
+
+                <div class="card">
+                    <h3>🔑 Verify Code</h3>
+                    <div class="form-group">
+                        <label>Verification Code:</label>
+                        <input type="text" id="verifyCode" placeholder="Enter code from Telegram">
+                    </div>
+                    <button class="btn-primary" onclick="verifyCode()">Verify</button>
+                </div>
             </div>
 
-            <h3>Connected Accounts</h3>
-            <div id="accountsList"></div>
-
-            <div id="accountActions" style="display: none; margin-top: 20px;">
-                <h3>Account Actions</h3>
-                <div class="form-group">
-                    <label>Verification Code (if needed)</label>
-                    <input type="text" id="codeInput" placeholder="Enter code from Telegram">
-                </div>
-                <div class="btn-group">
-                    <button onclick="verifyCode()">✓ Verify Code</button>
-                    <button class="danger" onclick="disconnectAccount()">🔌 Disconnect</button>
-                    <button class="danger" onclick="removeAccount()" style="background: #c0392b;">🗑️ Remove</button>
+            <div class="card" style="margin-top: 20px;">
+                <h3>📱 Connected Accounts</h3>
+                <div class="list-group" id="accountsList"></div>
+                <div class="button-group">
+                    <button class="btn-warning" onclick="disconnectAccount()">Disconnect</button>
+                    <button class="btn-danger" onclick="removeAccount()">Remove</button>
                 </div>
             </div>
         </div>
 
         <!-- Groups Tab -->
         <div id="groups" class="tab-content">
-            <h2>Group Management</h2>
-            <div id="groups-alert"></div>
-            
-            <div class="card" style="margin-bottom: 20px;">
-                <h3>Load Groups</h3>
+            <div class="card">
+                <h3>👥 Group Management</h3>
                 <div class="form-group">
-                    <label>Select Account</label>
-                    <select id="accountSelect">
-                        <option value="">Choose an account...</option>
+                    <label>Select Account:</label>
+                    <select id="accountSelect" onchange="loadGroups()">
+                        <option value="">-- Select an account --</option>
                     </select>
                 </div>
-                <button class="success" onclick="loadGroups()">📥 Load Groups</button>
-            </div>
+                <button class="btn-primary" onclick="loadGroups()">Load Groups</button>
 
-            <h3>Available Groups</h3>
-            <div id="groupsList" class="list-item" style="display: block; border: none; background: transparent; padding: 0;">
-                <p style="color: #95a5a6;">No groups loaded yet</p>
-            </div>
+                <h4 style="margin-top: 20px; margin-bottom: 10px;">Available Groups:</h4>
+                <div class="checkbox-group" id="groupsList"></div>
 
-            <div id="groupActions" style="display: none; margin-top: 20px;">
-                <button class="success" onclick="saveSelectedGroups()">💾 Save Selected Groups</button>
+                <button class="btn-success" onclick="saveSelectedGroups()" style="margin-top: 15px;">Save Selected Groups</button>
             </div>
         </div>
 
         <!-- Broadcast Tab -->
         <div id="broadcast" class="tab-content">
-            <h2>Broadcast Message</h2>
-            <div id="broadcast-alert"></div>
-            
-            <div class="form-group">
-                <label>Message</label>
-                <textarea id="messageInput" placeholder="Enter your message here... Markdown supported!"></textarea>
-            </div>
-
-            <div class="grid">
+            <div class="card">
+                <h3>📢 Broadcast Message</h3>
                 <div class="form-group">
-                    <label>Delay Between Messages (seconds)</label>
-                    <input type="number" id="delayInput" value="3" min="1" max="3600">
+                    <label>Message:</label>
+                    <textarea id="messageText" placeholder="Enter your message here..."></textarea>
                 </div>
-                <div class="form-group">
-                    <label>Formatting</label>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="markdownCheckbox" checked>
-                        <label for="markdownCheckbox" style="margin: 0;">Use Markdown</label>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Delay Between Messages (seconds):</label>
+                        <input type="number" id="delayInput" value="3" min="1" max="3600">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="markdownCheckbox" checked>
+                            Use Markdown Formatting
+                        </label>
                     </div>
                 </div>
-            </div>
 
-            <div class="btn-group">
-                <button onclick="previewMessage()">👁️ Preview</button>
-                <button class="danger" onclick="sendBroadcast()">🚀 Send Broadcast</button>
-            </div>
-
-            <div id="preview" style="display: none; margin-top: 20px; padding: 15px; background: rgba(52, 152, 219, 0.1); border-radius: 4px; border-left: 3px solid #3498db;">
-                <h3>Message Preview</h3>
-                <div id="previewContent"></div>
+                <div class="button-group">
+                    <button class="btn-primary" onclick="previewMessage()">Preview</button>
+                    <button class="btn-danger" onclick="broadcastMessage()">🚀 Send to All Groups</button>
+                </div>
             </div>
         </div>
 
         <!-- Logs Tab -->
         <div id="logs" class="tab-content">
-            <h2>Activity Logs</h2>
-            <button onclick="clearLogs()" style="margin-bottom: 15px;">🗑️ Clear Logs</button>
-            <div class="log-box" id="logsBox"></div>
+            <div class="card">
+                <h3>📋 Activity Logs</h3>
+                <div class="logs" id="logsDisplay"></div>
+                <button class="btn-warning" onclick="clearLogs()">Clear Logs</button>
+            </div>
         </div>
     </div>
 
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <script>
-        let selectedAccount = null;
-        let selectedGroups = [];
-        let allGroups = [];
+        // Initialize WebSocket connection
+        const socket = io();
 
+        socket.on('log', function(data) {
+            addLog(data.message, data.timestamp);
+        });
+
+        // Tab switching
         function showTab(tabName) {
             // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
-            document.querySelectorAll('.tab-btn').forEach(btn => {
+            document.querySelectorAll('.tab-button').forEach(btn => {
                 btn.classList.remove('active');
             });
 
@@ -496,105 +484,180 @@
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
 
-            if (tabName === 'logs') {
-                refreshLogs();
-            }
+            // Load data based on tab
+            if (tabName === 'accounts') loadAccounts();
+            if (tabName === 'groups') loadAccountsForGroups();
         }
 
-        function showAlert(tabId, message, type = 'info') {
-            const alertEl = document.getElementById(tabId + '-alert');
-            alertEl.innerHTML = `<div class="alert ${type}">${message}</div>`;
-            setTimeout(() => {
-                alertEl.innerHTML = '';
-            }, 5000);
+        // Logging
+        function addLog(message, timestamp) {
+            const logsDiv = document.getElementById('logsDisplay');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `<span class="log-timestamp">[${timestamp}]</span> <span class="log-message">${message}</span>`;
+            logsDiv.appendChild(entry);
+            logsDiv.scrollTop = logsDiv.scrollHeight;
         }
 
-        // Setup Functions
+        function clearLogs() {
+            document.getElementById('logsDisplay').innerHTML = '';
+        }
+
+        // Config
         async function saveConfig() {
             const apiId = document.getElementById('apiId').value.trim();
             const apiHash = document.getElementById('apiHash').value.trim();
 
             if (!apiId || !apiHash) {
-                showAlert('setup', '❌ Please enter both API ID and Hash', 'error');
+                alert('Please enter both API ID and API Hash');
                 return;
             }
 
             try {
-                const response = await fetch('/api/config/save', {
+                const response = await fetch('/api/config', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ api_id: apiId, api_hash: apiHash })
                 });
 
-                const data = await response.json();
-                if (data.success) {
-                    showAlert('setup', '✅ Configuration saved successfully!', 'success');
-                    loadAccounts();
+                if (response.ok) {
+                    alert('Configuration saved successfully!');
+                    document.getElementById('apiId').value = '';
+                    document.getElementById('apiHash').value = '';
                 } else {
-                    showAlert('setup', '❌ ' + data.message, 'error');
+                    alert('Error saving configuration');
                 }
             } catch (error) {
-                showAlert('setup', '❌ Error: ' + error.message, 'error');
+                alert('Error: ' + error.message);
             }
         }
 
-        // Account Functions
+        // Accounts
+        async function loadAccounts() {
+            try {
+                const response = await fetch('/api/accounts');
+                const data = await response.json();
+                const list = document.getElementById('accountsList');
+                list.innerHTML = '';
+
+                data.accounts.forEach(account => {
+                    const item = document.createElement('div');
+                    item.className = 'list-item';
+                    item.textContent = `${account.phone} - ${account.status}`;
+                    item.onclick = () => selectAccount(account.phone, item);
+                    list.appendChild(item);
+                });
+
+                loadAccountsForGroups();
+            } catch (error) {
+                console.error('Error loading accounts:', error);
+            }
+        }
+
+        let selectedAccount = null;
+        function selectAccount(phone, element) {
+            selectedAccount = phone;
+            document.querySelectorAll('#accountsList .list-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
         async function addAccount() {
             const phone = document.getElementById('phoneInput').value.trim();
-
             if (!phone) {
-                showAlert('accounts', '❌ Please enter a phone number', 'error');
+                alert('Please enter a phone number');
                 return;
             }
 
             try {
-                const response = await fetch('/api/accounts/add', {
+                const response = await fetch('/api/accounts', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ phone })
                 });
 
-                const data = await response.json();
-                if (data.success) {
-                    showAlert('accounts', '✅ ' + data.message, 'success');
+                if (response.ok) {
                     document.getElementById('phoneInput').value = '';
                     loadAccounts();
                 } else {
-                    showAlert('accounts', '❌ ' + data.message, 'error');
+                    const data = await response.json();
+                    alert('Error: ' + data.error);
                 }
             } catch (error) {
-                showAlert('accounts', '❌ Error: ' + error.message, 'error');
+                alert('Error: ' + error.message);
             }
         }
 
-        async function loadAccounts() {
+        async function verifyCode() {
+            const code = document.getElementById('verifyCode').value.trim();
+            if (!code || !selectedAccount) {
+                alert('Please select an account and enter a code');
+                return;
+            }
+
             try {
-                const response = await fetch('/api/accounts');
-                const accounts = await response.json();
-
-                const list = document.getElementById('accountsList');
-                list.innerHTML = '';
-
-                accounts.forEach(acc => {
-                    const item = document.createElement('div');
-                    item.className = 'list-item';
-                    item.onclick = () => selectAccount(acc.phone);
-                    item.innerHTML = `
-                        <div>
-                            <strong>${acc.phone}</strong> - <span style="color: #95a5a6;">${acc.status}</span>
-                        </div>
-                    `;
-                    list.appendChild(item);
+                const response = await fetch(`/api/accounts/${selectedAccount}/verify`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code })
                 });
 
-                // Update account select
+                if (response.ok) {
+                    document.getElementById('verifyCode').value = '';
+                    loadAccounts();
+                } else {
+                    const data = await response.json();
+                    alert('Error: ' + data.error);
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        async function disconnectAccount() {
+            if (!selectedAccount) {
+                alert('Please select an account');
+                return;
+            }
+
+            try {
+                await fetch(`/api/accounts/${selectedAccount}/disconnect`, { method: 'POST' });
+                loadAccounts();
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        async function removeAccount() {
+            if (!selectedAccount) {
+                alert('Please select an account');
+                return;
+            }
+
+            if (confirm(`Remove account ${selectedAccount}?`)) {
+                try {
+                    await fetch(`/api/accounts?phone=${selectedAccount}`, { method: 'DELETE' });
+                    loadAccounts();
+                    selectedAccount = null;
+                } catch (error) {
+                    alert('Error: ' + error.message);
+                }
+            }
+        }
+
+        // Groups
+        async function loadAccountsForGroups() {
+            try {
+                const response = await fetch('/api/accounts');
+                const data = await response.json();
                 const select = document.getElementById('accountSelect');
-                const currentValue = select.value;
-                select.innerHTML = '<option value="">Choose an account...</option>';
-                accounts.forEach(acc => {
+                select.innerHTML = '<option value="">-- Select an account --</option>';
+
+                data.accounts.forEach(account => {
                     const option = document.createElement('option');
-                    option.value = acc.phone;
-                    option.textContent = acc.phone;
+                    option.value = account.phone;
+                    option.textContent = `${account.phone} (${account.status})`;
                     select.appendChild(option);
                 });
             } catch (error) {
@@ -602,172 +665,89 @@
             }
         }
 
-        function selectAccount(phone) {
-            selectedAccount = phone;
-            document.getElementById('accountActions').style.display = 'block';
-            document.querySelectorAll('#accountsList .list-item').forEach(item => {
-                item.classList.remove('selected');
-            });
-            event.target.closest('.list-item').classList.add('selected');
-        }
-
-        async function verifyCode() {
-            if (!selectedAccount) {
-                showAlert('accounts', '❌ Please select an account', 'error');
-                return;
-            }
-
-            const code = document.getElementById('codeInput').value.trim();
-            if (!code) {
-                showAlert('accounts', '❌ Please enter the verification code', 'error');
-                return;
-            }
-
-            try {
-                const response = await fetch(`/api/accounts/${selectedAccount}/verify-code`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ code })
-                });
-
-                const data = await response.json();
-                if (data.success) {
-                    showAlert('accounts', '✅ Code verified!', 'success');
-                    document.getElementById('codeInput').value = '';
-                    loadAccounts();
-                } else {
-                    showAlert('accounts', '❌ ' + data.message, 'error');
-                }
-            } catch (error) {
-                showAlert('accounts', '❌ Error: ' + error.message, 'error');
-            }
-        }
-
-        async function disconnectAccount() {
-            if (!selectedAccount) return;
-            try {
-                await fetch(`/api/accounts/${selectedAccount}/disconnect`, { method: 'POST' });
-                showAlert('accounts', '✅ Account disconnected', 'success');
-                loadAccounts();
-            } catch (error) {
-                showAlert('accounts', '❌ Error: ' + error.message, 'error');
-            }
-        }
-
-        async function removeAccount() {
-            if (!selectedAccount || !confirm('Remove this account?')) return;
-            try {
-                await fetch(`/api/accounts/${selectedAccount}/remove`, { method: 'POST' });
-                showAlert('accounts', '✅ Account removed', 'success');
-                loadAccounts();
-            } catch (error) {
-                showAlert('accounts', '❌ Error: ' + error.message, 'error');
-            }
-        }
-
-        // Groups Functions
         async function loadGroups() {
             const phone = document.getElementById('accountSelect').value;
             if (!phone) {
-                showAlert('groups', '❌ Please select an account', 'error');
+                alert('Please select an account');
                 return;
             }
 
             try {
-                const response = await fetch(`/api/groups/load/${phone}`, { method: 'POST' });
-                const data = await response.json();
+                const response = await fetch('/api/groups/load', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone })
+                });
 
-                if (data.success) {
-                    allGroups = data.groups;
-                    displayGroups();
-                    document.getElementById('groupActions').style.display = 'block';
-                    showAlert('groups', `✅ Loaded ${data.groups.length} groups`, 'success');
+                if (response.ok) {
+                    const data = await response.json();
+                    const groupsList = document.getElementById('groupsList');
+                    groupsList.innerHTML = '';
+
+                    data.groups.forEach(group => {
+                        const div = document.createElement('div');
+                        div.className = 'checkbox-item';
+                        div.innerHTML = `
+                            <input type="checkbox" data-group='${JSON.stringify(group)}'>
+                            <span>[${group.type.toUpperCase()}] ${group.title}</span>
+                        `;
+                        groupsList.appendChild(div);
+                    });
                 } else {
-                    showAlert('groups', '❌ ' + data.message, 'error');
+                    const err = await response.json();
+                    alert('Error: ' + err.error);
                 }
             } catch (error) {
-                showAlert('groups', '❌ Error: ' + error.message, 'error');
+                alert('Error: ' + error.message);
             }
-        }
-
-        function displayGroups() {
-            const list = document.getElementById('groupsList');
-            list.innerHTML = '';
-            list.style.display = 'block';
-            list.style.border = 'none';
-            list.style.background = 'transparent';
-            list.style.padding = '0';
-
-            allGroups.forEach((group, index) => {
-                const item = document.createElement('div');
-                item.className = 'list-item';
-                item.style.marginBottom = '5px';
-                item.innerHTML = `
-                    <div style="flex: 1;">
-                        <input type="checkbox" id="group-${index}" onchange="updateSelected()">
-                        <label for="group-${index}" style="margin: 0; display: inline; margin-left: 10px; cursor: pointer;">
-                            [${group.type.toUpperCase()}] ${group.title}
-                        </label>
-                    </div>
-                `;
-                list.appendChild(item);
-            });
-        }
-
-        function updateSelected() {
-            selectedGroups = [];
-            allGroups.forEach((group, index) => {
-                const checkbox = document.getElementById(`group-${index}`);
-                if (checkbox && checkbox.checked) {
-                    selectedGroups.push(group);
-                }
-            });
         }
 
         async function saveSelectedGroups() {
             const phone = document.getElementById('accountSelect').value;
             if (!phone) {
-                showAlert('groups', '❌ Please select an account', 'error');
+                alert('Please select an account');
                 return;
             }
+
+            const groups = [];
+            document.querySelectorAll('#groupsList input[type="checkbox"]:checked').forEach(checkbox => {
+                groups.push(JSON.parse(checkbox.getAttribute('data-group')));
+            });
 
             try {
-                const response = await fetch(`/api/groups/save/${phone}`, {
+                const response = await fetch('/api/groups/save', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ groups: selectedGroups })
+                    body: JSON.stringify({ phone, groups })
                 });
 
-                const data = await response.json();
-                if (data.success) {
-                    showAlert('groups', `✅ Saved ${selectedGroups.length} groups`, 'success');
+                if (response.ok) {
+                    alert(`Saved ${groups.length} groups`);
                 } else {
-                    showAlert('groups', '❌ ' + data.message, 'error');
+                    alert('Error saving groups');
                 }
             } catch (error) {
-                showAlert('groups', '❌ Error: ' + error.message, 'error');
+                alert('Error: ' + error.message);
             }
         }
 
-        // Broadcast Functions
+        // Broadcast
         function previewMessage() {
-            const message = document.getElementById('messageInput').value;
+            const message = document.getElementById('messageText').value;
             if (!message) {
-                showAlert('broadcast', '❌ Message is empty', 'error');
+                alert('Message is empty');
                 return;
             }
-            const preview = document.getElementById('preview');
-            const content = document.getElementById('previewContent');
-            content.textContent = message;
-            preview.style.display = 'block';
+            alert('Message Preview:\n\n' + message);
         }
 
-        async function sendBroadcast() {
-            const message = document.getElementById('messageInput').value.trim();
-            const delay = document.getElementById('delayInput').value;
+        async function broadcastMessage() {
+            const message = document.getElementById('messageText').value.trim();
+            const delay = parseInt(document.getElementById('delayInput').value) || 3;
+            const markdown = document.getElementById('markdownCheckbox').checked;
 
             if (!message) {
-                showAlert('broadcast', '❌ Message is empty', 'error');
+                alert('Please enter a message');
                 return;
             }
 
@@ -775,67 +755,22 @@
                 const response = await fetch('/api/broadcast', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message, delay: parseInt(delay) })
+                    body: JSON.stringify({ message, delay, markdown })
                 });
 
-                const data = await response.json();
-                if (data.success) {
-                    showAlert('broadcast', `✅ ${data.message}`, 'success');
-                    document.getElementById('messageInput').value = '';
-                    refreshLogs();
+                if (response.ok) {
+                    alert('Broadcast started! Check the logs for progress.');
                 } else {
-                    showAlert('broadcast', '❌ ' + data.message, 'error');
+                    const err = await response.json();
+                    alert('Error: ' + err.error);
                 }
             } catch (error) {
-                showAlert('broadcast', '❌ Error: ' + error.message, 'error');
+                alert('Error: ' + error.message);
             }
         }
 
-        // Logs Functions
-        async function refreshLogs() {
-            try {
-                const response = await fetch('/api/logs');
-                const data = await response.json();
-                const logsBox = document.getElementById('logsBox');
-                logsBox.innerHTML = '';
-
-                data.logs.forEach(log => {
-                    const entry = document.createElement('div');
-                    entry.className = 'log-entry';
-                    
-                    if (log.includes('✓')) {
-                        entry.classList.add('success');
-                    } else if (log.includes('✗') || log.includes('Error')) {
-                        entry.classList.add('error');
-                    } else {
-                        entry.classList.add('info');
-                    }
-                    
-                    entry.textContent = log;
-                    logsBox.appendChild(entry);
-                });
-
-                logsBox.scrollTop = logsBox.scrollHeight;
-            } catch (error) {
-                console.error('Error loading logs:', error);
-            }
-        }
-
-        async function clearLogs() {
-            try {
-                await fetch('/api/logs/clear', { method: 'POST' });
-                document.getElementById('logsBox').innerHTML = '';
-            } catch (error) {
-                console.error('Error clearing logs:', error);
-            }
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadAccounts();
-            refreshLogs();
-            setInterval(refreshLogs, 2000);
-        });
+        // Initial load
+        loadAccounts();
     </script>
 </body>
 </html>
